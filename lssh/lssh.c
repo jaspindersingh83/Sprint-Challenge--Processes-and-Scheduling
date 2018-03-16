@@ -89,14 +89,31 @@ int main(void)
             break;
         }
 
+        if (strcmp(args[0], "ls") == 0 &&  strcmp(args[1], "-l") == 0){
+            pid_t pid = fork();
+            if(pid == 0){
+                execlp("ls", "ls", "-l", "/", (char *)NULL);
+            } else{
+                wait(NULL);
+            }
+        }
+
+        if (strcmp(args[0], "head") == 0 && args[1]){
+            pid_t pid = fork();
+            if(pid == 0){
+                execlp("head", "head", "./lssh.c", (char *)NULL);
+            } else{
+                wait(NULL);
+            }
+        }
         #if DEBUG
 
         // Some debugging output
 
         // Print out the parsed command line in args[]
-        for (int i = 0; args[i] != NULL; i++) {
-            printf("%d: '%s'\n", i, args[i]);
-        }
+        // for (int i = 0; args[i] != NULL; i++) {
+        //     printf("%d: '%s'\n", i, args[i]);
+        // }
 
         #endif
     }
