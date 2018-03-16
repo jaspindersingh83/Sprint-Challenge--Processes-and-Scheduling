@@ -88,24 +88,22 @@ int main(void)
         if (strcmp(args[0], "exit") == 0) {
             break;
         }
-
-        if (strcmp(args[0], "ls") == 0 &&  strcmp(args[1], "-l") == 0){
-            pid_t pid = fork();
-            if(pid == 0){
-                execlp("ls", "ls", "-l", "/", (char *)NULL);
-            } else{
-                wait(NULL);
-            }
+        
+        if (strcmp(args[0], "cd") == 0 && args[1]) {
+            chdir(args[1]);
+            continue;
         }
 
-        if (strcmp(args[0], "head") == 0 && args[1]){
-            pid_t pid = fork();
-            if(pid == 0){
-                execlp("head", "head", "./lssh.c", (char *)NULL);
-            } else{
-                wait(NULL);
-            }
+        
+        pid_t pid = fork();
+        if(pid == 0){
+            execvp(args[0], &args[0]);
+        } else{
+            wait(NULL);
         }
+
+
+
         #if DEBUG
 
         // Some debugging output
